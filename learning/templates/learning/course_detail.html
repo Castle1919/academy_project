@@ -1,0 +1,57 @@
+{% extends "learning/base.html" %}
+{% block title %}{{ course.title }}{% endblock %}
+{% block content %}
+<a href="{% url 'index' %}" class="btn btn-green my-4">← Назад на главную</a>
+
+<div class="card border-success mb-4">
+    <div class="card-header">
+        {{ course.title }}
+    </div>
+    
+    <div class="card-body">
+        <p><strong>Описание:</strong> {{ course.description }}</p>
+        <p><strong>Дата начала:</strong> {{ course.start_date }}</p>
+        <p><strong>Дата окончания:</strong> {{ course.end_date }}</p>
+    </div>
+</div>
+
+<h4>Список студентов</h4>
+<ul class="list-group mb-4">
+    {% for student in students %}
+    <li class="list-group-item">{{ student.last_name }} {{ student.first_name }}</li>
+    {% empty %}
+    <li class="list-group-item text-muted">Нет записей</li>
+    {% endfor %}
+</ul>
+
+<h4>Записать студента</h4>
+<form method="post" action="{% url 'enroll_student' %}" class="mb-3">
+    {% csrf_token %}
+    <div class="row g-3 align-items-center">
+        <div class="col-md-5">
+            <label for="studentSelect" class="form-label">Студент</label>
+            <select id="studentSelect" name="student" class="form-select" required>
+                {% for s in all_students %}
+                <option value="{{ s.id }}">{{ s.last_name }} {{ s.first_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="hidden" name="course" value="{{ course.id }}">
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-green">Записать</button>
+        </div>
+    </div>
+</form>
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} mt-3"
+    role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+
+
+{% endblock %}
