@@ -9,7 +9,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'homeworks-3c286c0c4cf9.herokuapp.com', 'localhost', '127.0.0.1'
+    'academy-project-d2d93ad7a3e3.herokuapp.com', 'localhost', '127.0.0.1'
 ]
 
 
